@@ -1,18 +1,10 @@
 using DelimitedFiles
-wikiEVD = DelimitedFiles.readdlm("data/wikiEVD.csv", ',')
-
 using Dates
-println(Dates.DateTime(wikiEVD[1, 1], "d u y"))
-
-date_col = wikiEVD[:, 1]
-
-for i in 1:length(date_col)
-    date_col[i] = Dates.DateTime(date_col[i], "d u y")
-end
-
-println(Dates.datetime2rata(date_col[1]))
 
 function dates2epidays(x)
+    for i in 1:length(date_col)
+        date_col[i] = Dates.DateTime(date_col[i], "d u y")
+    end
     len = length(x)
     epidays = Array{Int64}(undef, len)
     for i in 1:len
@@ -21,5 +13,19 @@ function dates2epidays(x)
     return epidays
 end
 
+function imputeZero(data)
+    rows, cols = size(data)
+    for j in 1:cols
+        for i in 1:rows
+            if !isdigit(string(data[i, j])[1])
+                data[i, j] = 0
+            end
+        end
+    end
+end
+
+wikiEVD = DelimitedFiles.readdlm("data/wikiEVD.csv", ',')
+date_col = wikiEVD[:, 1]
 wikiEVD[:, 1] = dates2epidays(date_col)
-DelimitedFiles.writedlm("wikiEVD_clean.csv", wikiEVD, ',')
+imputeZero(wikiEVD)
+DelimitedFiles.writedlm("data/wikiEVD_clean.csv", wikiEVD, ',')
