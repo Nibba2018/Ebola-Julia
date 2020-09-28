@@ -5,8 +5,6 @@ allcases = EVD_clean[:, 2]
 
 using Plots
 gr()
-plot(epidays, allcases)
-plot(epidays, allcases, linetype=:scatter, marker=:diamond)
 plot(
     epidays,
     allcases,
@@ -19,3 +17,17 @@ plot(
     grid = false
 )
 savefig("plots/EVD_plot.png")
+
+cases_by_country = EVD_clean[:, [4, 6, 8]]
+plot(
+    epidays,
+    cases_by_country,
+    legend = :topleft,
+    marker = ([:octagon :star7 :square], 4),
+    label = ["Guinea" "Liberia" "Sierra Leone"],
+    title = "Ebola cases by country",
+    xlabel = "Days since 22 March 2014",
+    ylabel = "Total cases to date",
+    line = (:path)
+)
+savefig("plots/EVD_country_plot.png")
