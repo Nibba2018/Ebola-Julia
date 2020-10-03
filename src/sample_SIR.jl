@@ -40,3 +40,15 @@ plot(
     label = ["Susceptible" "Infected" "Removed"]
 )
 savefig("plots/sample_SIR.png")
+
+svals = resultvals[:, 1]
+ivals = resultvals[:, 2]
+
+plot(
+    svals,
+    ivals,
+    title = "Sample I vs S Plot",
+    xlabel = "Susceptible",
+    ylabel = "Infected"
+)
+savefig("plots/I_vs_S_sample.png")
